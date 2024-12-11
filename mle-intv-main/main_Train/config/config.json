@@ -1,0 +1,7 @@
+{
+    "data_path": "mle-intv-main/main_Train/data/train.csv",
+    "model_save_path": "mle-intv-main/Application/trained_model.joblib",
+    "numeric_features": ["x1", "x2", "x4", "x5"],
+    "categorical_features": ["x3", "x6", "x7"],
+    "random_state": 1337
+}
