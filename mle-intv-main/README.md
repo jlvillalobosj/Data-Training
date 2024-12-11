@@ -90,3 +90,10 @@ Some key questions we will work through:
 
 **NOTE**: We do not expect all of the above questions to be worked-out/demonstrated
 in your codebase, but you should be prepared to whiteboard/discuss these issues.
+
+
+## Architecture
+
+<p align="center">
+  <img src="/Imágenes/BrazoRobotico.PNG" width="400" />
+</p>
