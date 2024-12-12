@@ -5,18 +5,18 @@ import os
 
 app = Flask(__name__)
 
-base_path = os.getenv("MODEL_BASE_PATH", "./models/")  # Carpeta por defecto: ./models/
+base_path = os.getenv("MODEL_BASE_PATH", "./models/")  # Default folder: ./models/
 
 @app.route("/score/<model_name>", methods=["POST"])
 def predict(model_name):
     try:
-        # Construir la ruta completa del archivo del modelo
+        # Construct the full path of the model file
         model_path = os.path.join(base_path, f"{model_name}.joblib")
 
         # Load the saved model
         model = joblib.load(model_path)
         
-        # Verificar si el archivo existe
+        # Check if the file exists
         if not os.path.exists(model_path):
             return jsonify({"error": f"Model '{model_name}' not found"}), 404
         # Read data from request body
