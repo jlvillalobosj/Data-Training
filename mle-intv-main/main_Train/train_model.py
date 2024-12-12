@@ -59,7 +59,7 @@ def train_model(clf, X_train, y_train):
 def evaluate_model(clf, X_test, y_test):
     print("model score: %.3f" % clf.score(X_test, y_test))
     
-    tprobs = clf.predict_proba(X_test)[:, 1]
+    tprobs = clf.predict_proba(X_test)[:, 1]   # matriz de dimensiones (n_samples, n_classes)
     print(classification_report(y_test, clf.predict(X_test)))
     print('Confusion matrix:')
     print(confusion_matrix(y_test, clf.predict(X_test)))
