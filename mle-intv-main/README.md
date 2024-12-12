@@ -95,5 +95,5 @@ in your codebase, but you should be prepared to whiteboard/discuss these issues.
 ## Architecture
 
 <p align="center">
-  <img src="/Imágenes/BrazoRobotico.PNG" width="400" />
+  <img src="Arquitectura.PNG" width="800" />
 </p>
