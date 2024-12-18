@@ -1,20 +1,15 @@
 # Using a base image with Python
-FROM python:3.9-slim
+FROM public.ecr.aws/lambda/python:3.9
 
 # Create a directory for the app
 WORKDIR /app
-ARG filemodel
 
 # Copiar los archivos necesarios
-COPY mle-intv-main/controller/model_cars.py /app/
-COPY ${filemodel} /app/
+COPY mle-intv-main/Application/AWS/model_car_AWS.py ${LAMBDA_TASK_ROOT}
 
-# Copy the necessary files
-RUN pip install numpy scipy pandas joblib flask
-RUN pip install scikit-learn==1.5.1
-
-# Expose port for API
-EXPOSE 5000
+# Copy the necessary file
+RUN pip install pandas joblib boto3 --target "${LAMBDA_TASK_ROOT}"
+RUN pip install -U scikit-learn --target "${LAMBDA_TASK_ROOT}"
 
 # Command to run the application
-CMD ["python", "model_cars.py"]
+CMD ["model_car_AWS.lambda_handler"]
