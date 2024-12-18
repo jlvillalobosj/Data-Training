@@ -95,5 +95,27 @@ in your codebase, but you should be prepared to whiteboard/discuss these issues.
 ## Architecture
 
 <p align="center">
-  <img src="Arquitectura.PNG" width="800" />
+  <img src="./Images/Arquitectura.PNG" width="800" />
+</p>
+
+
+## Numerical data analysis
+
+<p align="center">
+  <img src="./Images/Avg_Missing_datas.PNG" width="800" />
+</p>
+
+<p align="center">
+  <img src="./Images/Histogram_numeric_datas.PNG" style="width: 32%; height: auto;" / />
+  <img src="./Images/Boxx_numeric_Datas.PNG" style="width: 32%; height: auto;" //>
+  <img src="./Images/Correlation_matrix.PNG" style="width: 32%; height: auto;" //>
+</p>
+
+
+## Categorical data analysis
+
+<p align="center">
+  <img src="./Images/Days_datas.PNG" style="width: 32%; height: auto;" //>
+  <img src="./Images/State_datas.PNG" style="width: 32%; height: auto;" / />
+  <img src="./Images/Cars_datas.PNG" style="width: 32%; height: auto;" //>
 </p>
