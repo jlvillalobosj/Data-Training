@@ -57,14 +57,20 @@ def train_model(clf, X_train, y_train):
     return clf.fit(X_train, y_train)
 
 def evaluate_model(clf, X_test, y_test):
-    print("model score: %.3f" % clf.score(X_test, y_test))
+    report_classification = classification_report(y_test, clf.predict(X_test))
+    classification = classification_report(y_test, clf.predict(X_test), output_dict=True)
+    matrix = confusion_matrix(y_test, clf.predict(X_test))
     
     tprobs = clf.predict_proba(X_test)[:, 1]   # matriz de dimensiones (n_samples, n_classes)
-    print(classification_report(y_test, clf.predict(X_test)))
+    auc = roc_auc_score(y_test, tprobs)
+    print("model score: %.3f" % clf.score(X_test, y_test))
+    print(report_classification)
     print('Confusion matrix:')
-    print(confusion_matrix(y_test, clf.predict(X_test)))
-    print(f'AUC: {roc_auc_score(y_test, tprobs)}')
+    print(matrix)
+    print(f'AUC: {auc}')
     RocCurveDisplay.from_estimator(estimator=clf,X= X_test, y=y_test)
+
+    return classification, matrix.tolist(), auc
 
 
 def save_model(clf, file_path_model):
@@ -112,7 +118,7 @@ def main():
     clf = train_model(classifier, X_train, y_train)
 
     # Evaluate model
-    evaluate_model(clf, X_test, y_test)
+    classification, confussion, auc = evaluate_model(clf, X_test, y_test)
 
     # Save model
     save_model(clf, model_save_path)

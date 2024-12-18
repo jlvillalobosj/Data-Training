@@ -5,7 +5,7 @@ import os
 
 app = Flask(__name__)
 
-base_path = os.getenv("MODEL_BASE_PATH", "./models/")  # Default folder: ./models/
+base_path = os.getenv("MODEL_BASE_PATH", "./mle-intv-main/Application/")  # Default folder: ./mle-intv-main/Application/
 
 @app.route("/score/<model_name>", methods=["POST"])
 def predict(model_name):
@@ -13,7 +13,7 @@ def predict(model_name):
         # Construct the full path of the model file
         model_path = os.path.join(base_path, f"{model_name}.joblib")
 
-        # Load the saved model
+        # Load the saved model  
         model = joblib.load(model_path)
         
         # Check if the file exists
