@@ -1,0 +1,36 @@
+name: Test1_python
+
+on:
+  push:
+    branches:
+      - main  # Se ejecuta en cada push a la rama principal
+  pull_request:
+    branches:
+      - main  # También en los pull requests a la rama principal
+
+jobs:
+    apple_job:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Preparar la manzana 🍎
+          run: echo "Lavando la manzana. prueba 2.."
+        - name: Cortar la manzana
+          run: echo "Cortando la manzana en rodajas..."
+  
+    banana_job:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Pelar la banana 🍌
+          run: echo "Peleando la bananassss..."
+        - name: Cortar la banana
+          run: echo "Cortando la banana en trozos..."
+  
+    grape_job:
+      runs-on: ubuntu-latest
+      needs: [apple_job, banana_job]  # Espera a que apple_job y banana_job terminen
+      steps:
+        - name: Lavar las uvas 🍇
+          run: echo "Lavando las uvas..."
+        - name: Comer las frutas
+          run: echo "Comiendo una ensalada de frutas 🍎🍌🍇"
+      
