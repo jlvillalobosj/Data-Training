@@ -12,6 +12,8 @@ jobs:
     apple_job:
       runs-on: ubuntu-latest
       steps:
+        - name: Checkout del codigo
+          uses: actions/checkout@v4
         - name: Preparar la manzana 🍎
           run: echo "Lavando la manzana. prueba 2.."
         - name: Cortar la manzana
