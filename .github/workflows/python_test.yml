@@ -12,8 +12,6 @@ jobs:
     apple_job:
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout del codigo
-          uses: actions/checkout@v4
         - name: Preparar la manzana 🍎
           run: echo "Lavando la manzana. prueba 2.."
         - name: Cortar la manzana
@@ -39,4 +37,29 @@ jobs:
           run: echo "Lavando las uvas..."
         - name: Comer las frutas
           run: echo "Comiendo una ensalada de frutas 🍎🍌🍇"
+        
+  
+    build_and_test:
+      runs-on: ubuntu-latest
+      needs: [grape_job]  # Espera a que apple_job y banana_job terminen
+      steps:
+        - name: Checkout del código
+          uses: actions/checkout@v4
+
+        - name: Configurar Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.10'
+        
+        - name: Instalar dependencias
+          run: pip install -r mle-intv-main/main_Train/config/requirements.txt
+        
+        #- name: Ejecutar pruebas antes de construir
+        #  run: pytest tests/
+        
+        #- name: Construir la imagen Docker
+        #  run: docker build -t mi-aplicacion .
+        
+        #- name: Ejecutar pruebas dentro del contenedor
+        #  run: docker run mi-aplicacion pytest
       
