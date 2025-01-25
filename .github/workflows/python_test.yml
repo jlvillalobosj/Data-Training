@@ -18,6 +18,10 @@ jobs:
           run: echo "Lavando la manzana. prueba 2.."
         - name: Cortar la manzana
           run: echo "Cortando la manzana en rodajas..."
+        - name: Verificar archivos después del checkout
+          run: |
+                echo "Contenido del repositorio:"
+                ls -la
   
     banana_job:
       runs-on: ubuntu-latest
