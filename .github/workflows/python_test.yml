@@ -70,7 +70,7 @@ jobs:
           run: docker build -t PruebaCD -f mle-intv-main/Aplication/Local/Dockerfile .
 
         - name: Ejecutar pruebas dentro del contenedor
-          run: docker run PruebaCD -p 5000:5000
+          run: docker run pruebaCD -p 5000:5000
 
         #- name: Subir imagen a Docker Hub
         #  run: |
