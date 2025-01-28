@@ -65,9 +65,18 @@ jobs:
       runs-on: ubuntu-latest
       needs: [build_CI]
       steps:
+
+        - name: Retroceder un nivel y mostrar contenido
+          run: |
+            echo "Retrocediendo un nivel..."
+            cd ..  # Retrocede al directorio superior
+            echo "Ahora estamos en:"
+            pwd  # Muestra el directorio actual después de retroceder
+            echo "Archivos y carpetas en el nuevo directorio:"
+            ls -la
         
         - name: Construir la imagen Docker
-          run: docker build -t prueba_cd -f mle-intv-main/Aplication/Local/Dockerfile .
+          run: docker build -t prueba_cd -f ../mle-intv-main/Aplication/Local/Dockerfile .
 
         - name: Ejecutar pruebas dentro del contenedor
           run: docker run prueba_cd -p 5000:5000
