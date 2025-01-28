@@ -67,7 +67,7 @@ jobs:
       steps:
         
         - name: Construir la imagen Docker
-          run: docker build -t PruebaCD -f mle-intv-main/Aplication/Local/Dockerfile .
+          run: docker build -t pruebaCD -f mle-intv-main/Aplication/Local/Dockerfile .
 
         - name: Ejecutar pruebas dentro del contenedor
           run: docker run pruebaCD -p 5000:5000
