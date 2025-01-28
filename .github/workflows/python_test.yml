@@ -72,13 +72,12 @@ jobs:
         - name: Mostrar directorio actual
           run: |
             echo "Directorio actual"
-            cd mle-intv-main
             pwd  # Muestra el directorio actual después de retroceder
             echo "Archivos y carpetas en el nuevo directorio:"
             ls -la
 
-        #- name: Construir la imagen Docker
-        #  run: docker build -t prueba_cd -f mle-intv-main/Aplication/Local/Dockerfile .
+        - name: Construir la imagen Docker
+          run: docker build -t prueba_cd -f mle-intv-main/Application/Local/Dockerfile .
 
         #- name: Ejecutar pruebas dentro del contenedor
         #  run: docker run prueba_cd -p 5000:5000
