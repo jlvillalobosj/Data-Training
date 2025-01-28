@@ -71,7 +71,7 @@ jobs:
             echo "Directorio actual"
             pwd  # Muestra el directorio actual después de retroceder
             echo "Archivos y carpetas en el nuevo directorio:"
-            ls -la
+            ls 
         
 
         - name: Retroceder un nivel y mostrar contenido
@@ -81,7 +81,7 @@ jobs:
             echo "Ahora estamos en:"
             pwd  # Muestra el directorio actual después de retroceder
             echo "Archivos y carpetas en el nuevo directorio:"
-            ls -la
+            ls
         
         - name: Construir la imagen Docker
           run: docker build -t prueba_cd -f ../mle-intv-main/Aplication/Local/Dockerfile .
