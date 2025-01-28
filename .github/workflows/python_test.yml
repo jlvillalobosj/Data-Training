@@ -66,6 +66,14 @@ jobs:
       needs: [build_CI]
       steps:
 
+        - name: Mostrar directorio actual
+          run: |
+            echo "Directorio actual"
+            pwd  # Muestra el directorio actual después de retroceder
+            echo "Archivos y carpetas en el nuevo directorio:"
+            ls -la
+        
+
         - name: Retroceder un nivel y mostrar contenido
           run: |
             echo "Retrocediendo un nivel..."
