@@ -72,6 +72,7 @@ jobs:
         - name: Mostrar directorio actual
           run: |
             echo "Directorio actual"
+            cd mle-intv-main
             pwd  # Muestra el directorio actual después de retroceder
             echo "Archivos y carpetas en el nuevo directorio:"
             ls -la
