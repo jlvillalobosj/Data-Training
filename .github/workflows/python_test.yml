@@ -39,9 +39,10 @@ jobs:
           run: echo "Comiendo una ensalada de frutas 🍎🍌🍇"
         
   
-    build_and_test:
+    build_CI:
+      name: CI - Integración Continua
       runs-on: ubuntu-latest
-      needs: [grape_job]  # Espera a que apple_job y banana_job terminen
+      needs: [apple_job, banana_job]  # Espera a que apple_job y banana_job terminen
       steps:
         - name: Checkout del código
           uses: actions/checkout@v4
@@ -52,14 +53,28 @@ jobs:
             python-version: '3.10'
         
         - name: Instalar dependencias
-          run: pip install -r mle-intv-main/main_Train/config/requirements.txt
+          run: pip install -r mle-intv-main/main_Train/config/requirements.txt         
+
+          #- name: Ejecutar pruebas antes de construir
+          #  run: pytest tests/
+ 
         
-        #- name: Ejecutar pruebas antes de construir
-        #  run: pytest tests/
+  
+    build_CD:
+      name: CD - Despliegue Continuo
+      runs-on: ubuntu-latest
+      needs: [build_CI]
+      steps:
         
-        #- name: Construir la imagen Docker
-        #  run: docker build -t mi-aplicacion .
-        
-        #- name: Ejecutar pruebas dentro del contenedor
-        #  run: docker run mi-aplicacion pytest
+        - name: Construir la imagen Docker
+          run: docker build -t PruebaCD -f mle-intv-main/Aplication/Local/Dockerfile .
+
+        - name: Ejecutar pruebas dentro del contenedor
+          run: docker run PruebaCD -p 5000:5000
+
+        #- name: Subir imagen a Docker Hub
+        #  run: |
+        #  echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        # docker tag myapp:latest myusername/myapp:latest
+        #  docker push myusername/myapp:latest
       

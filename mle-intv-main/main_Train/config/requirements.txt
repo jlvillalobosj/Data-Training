@@ -1,0 +1,5 @@
+flask
+pandas
+joblib
+scikit-learn
+jsonschema  # Para manejar JSON de manera más robusta

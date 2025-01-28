@@ -6,11 +6,11 @@ WORKDIR /app
 ARG model
 
 # Copiar los archivos necesarios
-COPY mle-intv-main/Application/Local/model_cars.py mle-intv-main/Application/trained_model.joblib  /app/
+COPY mle-intv-main/Application/Local/model_cars.py mle-intv-main/Application/model_versions/trained_model.joblib  /app/
 
 # Copy the necessary files
-RUN pip install pandas joblib Flask --target 
-RUN pip install -U scikit-learn --target 
+RUN pip install pandas joblib Flask 
+RUN pip install -U scikit-learn 
 
 # Expose port for API
 EXPOSE 5000
