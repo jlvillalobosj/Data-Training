@@ -110,7 +110,7 @@ jobs:
           id: login-ecr
           uses: aws-actions/amazon-ecr-login@v1
   
-        - name: subir imagen a ECR
+        - name: subir imagen a ECR V2
           env:
             ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
             ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
