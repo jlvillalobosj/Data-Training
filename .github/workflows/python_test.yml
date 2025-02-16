@@ -119,6 +119,23 @@ jobs:
             echo "📋 Listando todas las instancias EC2..."
             aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId, State.Name, Tags[*].Value]' --output table
 
+        - name: Iniciar EC2
+          id: start_ec2
+          run: |
+            INSTANCE_ID=${{ secrets.EC2_INSTANCE_ID }}
+            aws ec2 start-instances --instance-ids $INSTANCE_ID
+            echo "Esperando que la instancia se inicie..."
+            aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+            echo "EC2 iniciada con éxito."
+
+        - name: Obtener IP Pública de EC2
+          id: get_ip
+          run: |
+            INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}
+            PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+            echo "La IP pública de la instancia es: $PUBLIC_IP"
+            echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+
         
             
 
