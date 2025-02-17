@@ -169,6 +169,27 @@ jobs:
               sudo systemctl enable docker
               sudo usermod -aG docker ec2-user
               docker --version
+              systemctl status docker
+            EOF
+
+        - name: Obtener credenciales de autenticación para ECR
+          run: |
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com
+
+        - name: Extraer la imagen de ECR
+          run: |
+            docker pull <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/tu-imagen:latest
+  
+        - name: Copiar la imagen a la EC2
+          run: |
+            docker save <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/tu-imagen:latest > image.tar
+            scp -i ${{ secrets.SSH_PRIVATE_KEY }} image.tar ec2-user@<tu-ip-ec2>:/home/ec2-user/
+  
+        - name: Conectar a EC2 y ejecutar el contenedor
+          run: |
+            ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }} ec2-user@<tu-ip-ec2> << 'EOF'
+            docker load < /home/ec2-user/image.tar
+            docker run -d --name mi-contenedor -p 80:80 <aws_account_id>.dkr.ecr.us-east-1.amazonaws.com/tu-imagen:latest
             EOF
 
         
