@@ -157,8 +157,10 @@ jobs:
           run: |
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
             chmod 600 private_key.pem
-            # Guardar la clave para el siguiente paso
-            echo "PRIVATE_KEY_PATH=private_key.pem" >> $GITHUB_ENV
+            PRIVATE_KEY_PATH=private_key.pem
+            echo "Conexión exitosa con EC2"
+          env:
+            PRIVATE_KEY_PATH: private_key.pem
 
         - name: Instalar Docker en EC2
           run: |
