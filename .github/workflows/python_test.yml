@@ -145,15 +145,17 @@ jobs:
             echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
 
         - name: Instalar Docker en EC2
-          run: |
-            ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }}<< 'EOF'
-              sudo yum update -y
-              sudo yum install docker -y
-              sudo systemctl start docker
-              sudo systemctl enable docker
-              sudo usermod -aG docker ec2-user
-              docker --version
-            EOF
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
+          chmod 600 private_key.pem
+          ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
+            sudo yum update -y
+            sudo yum install docker -y
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ec2-user
+            docker --version
+          EOF
 
         
         #- name: Detener la instancia EC2
