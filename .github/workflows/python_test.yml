@@ -132,7 +132,7 @@ jobs:
             INSTANCE_ID_RUNNING=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=hools" "Name=instance-state-name,Values=running" \
               --query "Reservations[*].Instances[*].InstanceId" --output text)
-        
+
             if [ -n "$INSTANCE_ID_STOPPED" ]; then
               echo "Esperando que la instancia detenida se inicie..."
               aws ec2 start-instances --instance-ids $INSTANCE_ID_STOPPED
@@ -157,10 +157,8 @@ jobs:
           run: |
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
             chmod 600 private_key.pem
-            PRIVATE_KEY_PATH=private_key.pem
-            echo "Conexión exitosa con EC2"
-          env:
-            PRIVATE_KEY_PATH: private_key.pem
+            # Guardar la clave para el siguiente paso
+            echo "PRIVATE_KEY_PATH=private_key.pem" >> $GITHUB_ENV
 
         - name: Instalar Docker en EC2
           run: |
