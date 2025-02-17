@@ -153,7 +153,7 @@ jobs:
 
         - name: Instalar Docker en EC2
           run: |
-            ssh -i ${{ env.PRIVATE_KEY_PATH }}-o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
+            ssh -i ${{ env.PRIVATE_KEY_PATH }} -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
               sudo yum update -y
               sudo yum install docker -y
               sudo systemctl start docker
