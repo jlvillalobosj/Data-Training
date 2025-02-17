@@ -126,13 +126,13 @@ jobs:
             INSTANCE_ID=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=hools" "Name=instance-state-name,Values=stopped" \
               --query "Reservations[*].Instances[*].InstanceId" --output text)
-            if [-n "$INSTANCE_ID"]; then
+            if [ -n "$INSTANCE_ID" ]; then
               echo "Esperando que la instancia se inicie..."
               aws ec2 start-instances --instance-ids $INSTANCE_ID
               aws ec2 wait instance-running --instance-ids $INSTANCE_ID
               echo "EC2 iniciada con éxito."
             else
-              echo "No se encontró una instancia detenida con la etiqueta 'MiInstanciaEC2'"
+              echo "No se encontró una instancia detenida con la etiqueta 'hools'"
               exit 1
             fi
 
