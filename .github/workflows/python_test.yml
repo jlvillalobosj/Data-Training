@@ -90,6 +90,7 @@ jobs:
             IMAGE_TAG: latest
             ACCESS_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           run: |
+            echo $ECR_REPOSITORY
             docker tag prueba_cd:latest $ACCESS_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
             docker push $ACCESS_ID.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG           
 
