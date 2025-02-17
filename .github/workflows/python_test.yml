@@ -150,7 +150,7 @@ jobs:
           run: |
             INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}
             PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
-            echo "La IP pública de la instancia es: $PUBLIC_IP"
+            echo "La IP pública de la instancia es la siguiente (Borrar): $PUBLIC_IP"
             echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
 
         - name: Conectarme a la EC2 con la SSH
