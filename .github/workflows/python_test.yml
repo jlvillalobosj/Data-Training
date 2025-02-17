@@ -122,11 +122,19 @@ jobs:
         - name: Iniciar EC2
           id: start_ec2
           run: |
-            INSTANCE_ID=${{ secrets.EC2_INSTANCE_ID }}
-            aws ec2 start-instances --instance-ids $INSTANCE_ID
-            echo "Esperando que la instancia se inicie..."
-            aws ec2 wait instance-running --instance-ids $INSTANCE_ID
-            echo "EC2 iniciada con éxito."
+            INSTANCE_ID_EV=${{ secrets.EC2_INSTANCE_ID }}
+            INSTANCE_ID=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=MiInstanciaEC2" "Name=instance-state-name,Values=stopped" \
+              --query "Reservations[*].Instances[*].InstanceId" --output text)
+            if [-n "$INSTANCE_ID"]; then
+              echo "Esperando que la instancia se inicie..."
+              aws ec2 start-instances --instance-ids $INSTANCE_ID
+              aws ec2 wait instance-running --instance-ids $INSTANCE_ID
+              echo "EC2 iniciada con éxito."
+            else
+              echo "No se encontró una instancia detenida con la etiqueta 'MiInstanciaEC2'"
+              exit 1
+            fi
 
         - name: Obtener IP Pública de EC2
           id: get_ip
@@ -135,6 +143,24 @@ jobs:
             PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
             echo "La IP pública de la instancia es: $PUBLIC_IP"
             echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
+
+        - name: Instalar Docker en EC2
+          run: |
+            ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }}<< 'EOF'
+              sudo yum update -y
+              sudo yum install docker -y
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker ec2-user
+              docker --version
+            EOF
+
+        
+        #- name: Detener la instancia EC2
+        #  run: |
+        #    INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}
+        #    aws ec2 stop-instances --instance-ids $INSTANCE_ID
+        #    echo "EC2 detenida."
 
         
             
