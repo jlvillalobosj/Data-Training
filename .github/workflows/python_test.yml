@@ -144,11 +144,16 @@ jobs:
             echo "La IP pública de la instancia es: $PUBLIC_IP"
             echo "PUBLIC_IP=$PUBLIC_IP" >> $GITHUB_ENV
 
-        - name: Instalar Docker en EC2
+        - name: Conectarme a la EC2 con la SSH
           run: |
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > private_key.pem
             chmod 600 private_key.pem
-            ssh -i private_key.pem -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
+            # Guardar la clave para el siguiente paso
+            echo "PRIVATE_KEY_PATH=private_key.pem" >> $GITHUB_ENV
+
+        - name: Instalar Docker en EC2
+          run: |
+            ssh -i ${{ env.PRIVATE_KEY_PATH }}-o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
               sudo yum update -y
               sudo yum install docker -y
               sudo systemctl start docker
