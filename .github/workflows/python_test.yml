@@ -176,14 +176,12 @@ jobs:
           run: |
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-        - name: Extraer la imagen de ECR
+        - name: Extraer la imagen en EC2
           run: |
-            docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-  
-        - name: Copiar la imagen a la EC2
-          run: |
-            docker save ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest > image.tar
-            scp -i ${{ secrets.SSH_PRIVATE_KEY }} image.tar ec2-user@${{ env.PUBLIC_IP }}/home/ec2-user/
+            ssh -o StrictHostKeyChecking=no -i <key.pem> ec2-user@${{ env.PUBLIC_IP }} << 'EOF'
+              aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+              docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+            EOF
   
         - name: Conectar a EC2 y ejecutar el contenedor
           run: |
