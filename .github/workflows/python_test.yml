@@ -98,10 +98,11 @@ jobs:
         
         - name: Verificacion de errores ML
           run:  |
-            pip install black black
+            pip install flake8 black pylint
             flake8 mle-intv-main/main_Train/train_model.py
             black mle-intv-main/main_Train/train_model.py
             flake8 mle-intv-main/main_Train/train_model.py
+            pylint mle-intv-main/main_Train/train_model.py
  
         
   
@@ -188,7 +189,7 @@ jobs:
             ssh -i ${{ env.PRIVATE_KEY_PATH }} -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ env.PUBLIC_IP }} << 'EOF'
               aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
               docker pull ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-            EOFs
+            EOF
   
         - name: Conectar a EC2 y ejecutar el contenedor
           run: |
