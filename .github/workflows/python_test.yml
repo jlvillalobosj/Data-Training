@@ -70,7 +70,7 @@ jobs:
           run: |
             echo "Directorio actual"
             pwd  # Muestra el directorio actual después de retroceder
-            echo "Archivos y carpetas en el nuevo directorio:"
+            echo "Archivos y carpetas en el nuevo directorio (BORRAR):"
             ls -la
   
   
