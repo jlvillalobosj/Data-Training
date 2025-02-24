@@ -51,15 +51,26 @@ jobs:
           uses: actions/setup-python@v4   
           with:
             python-version: '3.10'
+
+        - name: Crear y activar entorno virtual  # Crea un entorno virtual para instalar pip de forma independiente
+          run: |
+            python -m venv venv
+            source venv/bin/activate
+            pip install --upgrade pip
+
+        - name: Usar Poetry
+          run: |
+            pip install poetry
+            poetry install --no-root --directory mle-intv-main/main_Train
         
-        - name: Instalar dependencias
-          run: pip install -r mle-intv-main/main_Train/config/requirements.txt
+        #- name: Instalar dependencias
+        #  run: pip install -r mle-intv-main/main_Train/config/requirements.txt
     
         - name: Mostrar directorio actual
           run: |
             echo "Directorio actual"
             pwd  # Muestra el directorio actual después de retroceder
-            echo "Archivos y carpetas en el nuevo directorio:"
+            echo "Archivos y carpetas en el nuevo directorio (BORRAR):"
             ls -la
   
   
