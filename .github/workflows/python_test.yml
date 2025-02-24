@@ -61,7 +61,7 @@ jobs:
         - name: Usar Poetry
           run: |
             pip install poetry
-            poetry install
+            poetry install --directory mle-intv-main/main_Train
         
         #- name: Instalar dependencias
         #  run: pip install -r mle-intv-main/main_Train/config/requirements.txt
